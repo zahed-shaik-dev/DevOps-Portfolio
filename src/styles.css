@@ -271,11 +271,8 @@ button {
 
 .nav-links a:hover {
   color: var(--green);
-<<<<<<< HEAD
-=======
-
->>>>>>> 89d6e27dfec4167c83eebcb8a0f3fa22c67571e7
 }
+
 .nav-actions{display:flex;gap:8px;align-items:center}
 .icon-btn,.top-github{height:34px;border:1px solid var(--line);background:var(--panel);display:flex;align-items:center;justify-content:center}
 .icon-btn{width:34px;cursor:pointer}
