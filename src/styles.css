@@ -245,32 +245,28 @@ button {
   color: var(--blue);
   opacity: 1;
 }
-.nav-links a {
-  position: relative;
-  text-transform: uppercase;
-  font: 500 10px "JetBrains Mono";
-  letter-spacing: .12em;
-  color: var(--muted);
-  transition: .25s ease;
+.nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
 }
 
-.nav-links a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -8px;
-  width: 0;
-  height: 2px;
-  background: var(--gradient);
-  transition: width .25s ease;
+.nav-links a {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 0;
+  color: var(--muted);
+  text-decoration: none;
+  font: 600 11px "JetBrains Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transition: color 0.2s ease;
 }
 
 .nav-links a:hover {
-  color: var(--text);
-}
+  color: var(--green);
 
-.nav-links a:hover::after {
-  width: 100%;
 }
 .nav-actions{display:flex;gap:8px;align-items:center}
 .icon-btn,.top-github{height:34px;border:1px solid var(--line);background:var(--panel);display:flex;align-items:center;justify-content:center}
