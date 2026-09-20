@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root{
-  --bg:#070711;
-  --panel:#101020;
+  --bg:#070911;
+  --panel:#142842;
   --panel2:#15152a;
 
   --text:#f5f7ff;
@@ -41,26 +41,46 @@
       #ff5ec4
     );
 }
-:root.light body {
-  background:
-    radial-gradient(
-      circle at 5% 10%,
-      rgba(0, 168, 107, 0.08),
-      transparent 28%
-    ),
-    radial-gradient(
-      circle at 95% 15%,
-      rgba(118, 87, 232, 0.10),
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at 50% 100%,
-      rgba(0, 159, 212, 0.07),
-      transparent 35%
-    ),
-    var(--bg);
+/* =========================
+   LIGHT THEME
+========================= */
 
-  color: var(--text);
+:root.light {
+  --bg: #f7f9ff;
+  --panel: #ffffff;
+  --panel2: #f0f4ff;
+
+  --text: #172033;
+  --muted: #60708d;
+
+  --line: rgba(39, 55, 86, 0.11);
+  --line2: rgba(39, 55, 86, 0.20);
+
+  --green: #08a66a;
+  --blue: #078ecb;
+  --purple: #7654e8;
+  --pink: #dc3f9f;
+  --amber: #d87900;
+  --danger: #df4350;
+
+  --shadow: 0 22px 65px rgba(48, 64, 104, 0.12);
+
+  --gradient:
+    linear-gradient(
+      135deg,
+      #08a66a,
+      #078ecb,
+      #7654e8,
+      #dc3f9f
+    );
+
+  --gradient-text:
+    linear-gradient(
+      90deg,
+      #078fcb,
+      #7654e8,
+      #dc3f9f
+    );
 }
 html {
   scroll-behavior: smooth;
@@ -68,27 +88,12 @@ html {
 
 body {
   margin: 0;
-  background:
-    radial-gradient(
-      circle at 10% 15%,
-      rgba(56, 217, 150, 0.08),
-      transparent 28%
-    ),
-    radial-gradient(
-      circle at 90% 20%,
-      rgba(87, 169, 255, 0.10),
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at 50% 90%,
-      rgba(169, 112, 255, 0.08),
-      transparent 32%
-    ),
-    var(--bg);
-
+  background: var(--bg);
   color: var(--text);
-  font-family: Inter, system-ui, sans-serif;
-  min-height: 100vh;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 /* Modern DevOps grid */
@@ -245,32 +250,27 @@ button {
   color: var(--blue);
   opacity: 1;
 }
-.nav-links a {
-  position: relative;
-  text-transform: uppercase;
-  font: 500 10px "JetBrains Mono";
-  letter-spacing: .12em;
-  color: var(--muted);
-  transition: .25s ease;
+.nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
 }
 
-.nav-links a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -8px;
-  width: 0;
-  height: 2px;
-  background: var(--gradient);
-  transition: width .25s ease;
+.nav-links a {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 0;
+  color: var(--muted);
+  text-decoration: none;
+  font: 600 11px "JetBrains Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transition: color 0.2s ease;
 }
 
 .nav-links a:hover {
-  color: var(--text);
-}
-
-.nav-links a:hover::after {
-  width: 100%;
+  color: var(--green);
 }
 .nav-actions{display:flex;gap:8px;align-items:center}
 .icon-btn,.top-github{height:34px;border:1px solid var(--line);background:var(--panel);display:flex;align-items:center;justify-content:center}
@@ -705,58 +705,60 @@ h2 span{
 
 
 /* =========================
-   SKILLS STACK
+   CENTERED SKILLS TICKER
 ========================= */
 
-.ticker{
-  width:100%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:0;
-  overflow:hidden;
-  white-space:nowrap;
-  border-block:1px solid var(--line);
-  background:rgba(255,255,255,.015);
-  transition:all .4s ease;
+.ticker {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  overflow: hidden;
+  white-space: nowrap;
+  border-block: 1px solid var(--line);
+  background: rgba(219, 21, 21, 0.02);
 }
 
-.ticker div{
-  padding:16px 28px;
-  border-right:1px solid var(--line);
-
-  font:600 9px "JetBrains Mono";
-  color:var(--muted);
-  letter-spacing:.12em;
-  text-align:center;
-
-  transition:
-    color .3s ease,
-    background .3s ease,
-    transform .3s ease,
-    border-color .3s ease;
+.ticker div {
+  flex: 0 0 auto;
+  padding: 13px 22px;
+  border-right: 1px solid var(--line);
+  font: 600 12px "JetBrains Mono";
+  color: var(--muted);
+  letter-spacing: 0.12em;
+  text-align: center;
+  transition: 0.15s ease;
 }
 
-.ticker div:first-child{
-  border-left:1px solid var(--line);
+.ticker div:first-child {
+  border-left: 1px solid var(--line);
 }
 
-.ticker div:hover{
-  color:var(--green);
+.ticker div:hover {
+  color: var(--green);
+  background: color-mix(
+    in srgb,
+    var(--green) 7%,
+    transparent
+  );
+}
 
-  background:
-    linear-gradient(
-      135deg,
-      rgba(85,255,176,.08),
-      rgba(66,217,255,.06)
-    );
+/* Mobile */
+@media (max-width: 768px) {
+  .ticker {
+    justify-content: flex-start;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
 
-  transform:translateY(-2px);
+  .ticker::-webkit-scrollbar {
+    display: none;
+  }
 
-  border-color:rgba(66,217,255,.25);
-
-  text-shadow:
-    0 0 12px rgba(85,255,176,.35);
+  .ticker div {
+    padding: 12px 18px;
+    font-size: 8px;
+  }
 }
 
 /* =========================
@@ -1538,5 +1540,578 @@ footer{
     flex:1;
     justify-content:center;
     min-width:140px;
+  }
+}
+
+/* =========================================================
+   LIGHT MODE — COLORFUL, CLEAN & HIGH-CONTRAST
+   ========================================================= */
+
+:root.light body {
+  background:
+    radial-gradient(circle at 8% 8%, rgba(8, 166, 106, 0.10), transparent 25%),
+    radial-gradient(circle at 92% 12%, rgba(118, 84, 232, 0.12), transparent 27%),
+    radial-gradient(circle at 50% 92%, rgba(7, 142, 203, 0.08), transparent 30%),
+    var(--bg);
+}
+
+:root.light body::before {
+  opacity: 0.42;
+  background-image:
+    linear-gradient(rgba(7, 142, 203, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(118, 84, 232, 0.055) 1px, transparent 1px);
+}
+
+:root.light body::after {
+  background:
+    radial-gradient(circle, rgba(118, 84, 232, 0.16), transparent 70%);
+  opacity: 0.9;
+}
+
+/* Smooth theme transitions */
+:root,
+body,
+.nav-shell,
+.icon-btn,
+.top-github,
+.pipeline-panel,
+.console,
+.estimator,
+.layer-card,
+.stage,
+.console-toolbar,
+.project-expand,
+.stage-detail,
+.ticker,
+.btn.secondary,
+.contact-grid a,
+.chaos-section,
+select {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* Light glass navigation */
+:root.light .nav-shell {
+  background: rgba(255, 255, 255, 0.82);
+  border-bottom-color: rgba(39, 55, 86, 0.10);
+  box-shadow: 0 8px 35px rgba(48, 64, 104, 0.08);
+}
+
+/* Brand */
+:root.light .brand-mark {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(8, 166, 106, 0.13),
+      rgba(7, 142, 203, 0.13),
+      rgba(118, 84, 232, 0.13)
+    );
+  border-color: rgba(8, 166, 106, 0.28);
+  box-shadow:
+    0 10px 28px rgba(8, 166, 106, 0.10),
+    inset 0 0 20px rgba(7, 142, 203, 0.06);
+}
+
+/* Theme/GitHub buttons */
+:root.light .icon-btn,
+:root.light .top-github {
+  background: rgba(255, 255, 255, 0.90);
+  border-color: var(--line);
+  box-shadow: 0 5px 18px rgba(48, 64, 104, 0.06);
+}
+
+:root.light .icon-btn:hover,
+:root.light .top-github:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+  box-shadow: 0 8px 24px rgba(7, 142, 203, 0.13);
+}
+
+/* Main cards — bright, layered and colorful */
+:root.light .pipeline-panel,
+:root.light .console,
+:root.light .estimator,
+:root.light .layer-card {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.96),
+      rgba(247, 249, 255, 0.98)
+    ),
+    var(--panel);
+  border-color: rgba(39, 55, 86, 0.10);
+  box-shadow:
+    0 18px 50px rgba(48, 64, 104, 0.09),
+    0 2px 8px rgba(48, 64, 104, 0.04);
+}
+
+/* Add subtle colored card highlights */
+:root.light .pipeline-panel::before {
+  opacity: 0.11;
+}
+
+:root.light .layer-card::after {
+  opacity: 0.075;
+}
+
+/* Pipeline stages */
+:root.light .stage {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.98),
+      rgba(240, 244, 255, 0.96)
+    ),
+    var(--panel2);
+  border-color: rgba(39, 55, 86, 0.10);
+}
+
+:root.light .stage:hover,
+:root.light .stage.active {
+  border-color: var(--blue);
+  box-shadow:
+    0 14px 35px rgba(7, 142, 203, 0.12),
+    0 0 28px rgba(118, 84, 232, 0.08);
+}
+
+/* Section/detail surfaces */
+:root.light .stage-detail {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(7, 142, 203, 0.08),
+      rgba(118, 84, 232, 0.025),
+      transparent
+    ),
+    var(--panel2);
+}
+
+:root.light .console-toolbar {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(7, 142, 203, 0.075),
+      rgba(118, 84, 232, 0.04),
+      transparent
+    ),
+    var(--panel2);
+}
+
+/* Ticker */
+:root.light .ticker {
+  background: rgba(255, 255, 255, 0.65);
+}
+
+:root.light .ticker div:hover {
+  background: rgba(8, 166, 106, 0.07);
+}
+
+/* Secondary button */
+:root.light .btn.secondary {
+  background: rgba(255, 255, 255, 0.82);
+  border-color: var(--line2);
+}
+
+:root.light .btn.secondary:hover {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(8, 166, 106, 0.10),
+      rgba(7, 142, 203, 0.10),
+      rgba(118, 84, 232, 0.07)
+    );
+}
+
+/* Primary CTA */
+:root.light .btn.primary {
+  color: #ffffff;
+  box-shadow:
+    0 12px 32px rgba(7, 142, 203, 0.20),
+    0 6px 18px rgba(118, 84, 232, 0.12);
+}
+
+/* Form controls */
+:root.light select {
+  background: #ffffff;
+  border-color: var(--line);
+  box-shadow: 0 4px 15px rgba(48, 64, 104, 0.04);
+}
+
+:root.light select:focus {
+  box-shadow: 0 0 0 3px rgba(7, 142, 203, 0.10);
+}
+
+/* Project rows */
+:root.light .project-row:hover {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(7, 142, 203, 0.075),
+      rgba(118, 84, 232, 0.045),
+      transparent
+    );
+}
+
+/* Code blocks intentionally remain dark for readability */
+:root.light .project-expand pre,
+:root.light .terminal,
+:root.light .yaml {
+  color-scheme: dark;
+}
+
+/* Chaos section */
+:root.light .chaos-section {
+  box-shadow: 0 14px 38px rgba(223, 67, 80, 0.07);
+}
+
+/* Mobile menu — no hard-coded dark background */
+@media (max-width: 700px) {
+  :root.light .nav-links {
+    background:
+      linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.98),
+        rgba(240, 244, 255, 0.98)
+      );
+    box-shadow: 0 16px 35px rgba(48, 64, 104, 0.10);
+  }
+}
+
+/* Accessibility: make keyboard focus visible */
+button:focus-visible,
+a:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+
+/* =========================================================
+   VIBRANT VISUAL UPGRADE
+   Colorful without becoming a dark/neon-only website.
+   Works with both light and dark themes.
+   ========================================================= */
+
+/* Richer theme colors */
+:root {
+  --accent-green: #35e6a1;
+  --accent-cyan: #29c7ff;
+  --accent-blue: #5b7cff;
+  --accent-purple: #9b6cff;
+  --accent-pink: #f05bd5;
+  --accent-orange: #ff9d4d;
+  --accent-yellow: #ffd166;
+  --colorful-gradient: linear-gradient(120deg, #35e6a1 0%, #29c7ff 25%, #5b7cff 50%, #9b6cff 72%, #f05bd5 100%);
+  --warm-gradient: linear-gradient(120deg, #ffd166, #ff9d4d, #f05bd5);
+}
+
+:root.light {
+  --accent-green: #08b978;
+  --accent-cyan: #00a9df;
+  --accent-blue: #5272f2;
+  --accent-purple: #7654e8;
+  --accent-pink: #d946ad;
+  --accent-orange: #f28b35;
+  --accent-yellow: #e8ae19;
+  --colorful-gradient: linear-gradient(120deg, #08b978 0%, #00a9df 25%, #5272f2 50%, #7654e8 72%, #d946ad 100%);
+  --warm-gradient: linear-gradient(120deg, #e8ae19, #f28b35, #d946ad);
+}
+
+/* Stronger, colorful page atmosphere */
+body {
+  background-image:
+    radial-gradient(circle at 7% 8%, color-mix(in srgb, var(--accent-green) 17%, transparent), transparent 28%),
+    radial-gradient(circle at 92% 12%, color-mix(in srgb, var(--accent-cyan) 15%, transparent), transparent 27%),
+    radial-gradient(circle at 78% 72%, color-mix(in srgb, var(--accent-purple) 13%, transparent), transparent 30%),
+    radial-gradient(circle at 12% 88%, color-mix(in srgb, var(--accent-pink) 10%, transparent), transparent 28%),
+    var(--bg);
+}
+
+/* Make headings visually distinctive */
+h1, h2, h3 {
+  text-wrap: balance;
+}
+
+h1 {
+  background: var(--colorful-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.section-title,
+.section-heading,
+.hero-title {
+  position: relative;
+}
+
+/* Colorful section accents */
+.section-title::after,
+.section-heading::after {
+  content: "";
+  display: block;
+  width: 72px;
+  height: 4px;
+  margin-top: 12px;
+  border-radius: 999px;
+  background: var(--colorful-gradient);
+  box-shadow: 0 4px 18px color-mix(in srgb, var(--accent-purple) 28%, transparent);
+}
+
+/* Give cards actual color identity */
+.card,
+.stat-card,
+.project-card,
+.skill-card,
+.service-card,
+.contact-card,
+.timeline-card,
+.about-card,
+.feature-card {
+  position: relative;
+  overflow: hidden;
+  border-color: color-mix(in srgb, var(--accent-blue) 18%, var(--line));
+  box-shadow:
+    0 12px 34px color-mix(in srgb, var(--accent-blue) 7%, transparent),
+    0 2px 8px color-mix(in srgb, var(--accent-purple) 5%, transparent);
+}
+
+.card::before,
+.stat-card::before,
+.project-card::before,
+.skill-card::before,
+.service-card::before,
+.contact-card::before,
+.timeline-card::before,
+.about-card::before,
+.feature-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: var(--colorful-gradient);
+  opacity: .9;
+}
+
+/* Colorful hover interaction */
+.card:hover,
+.stat-card:hover,
+.project-card:hover,
+.skill-card:hover,
+.service-card:hover,
+.contact-card:hover,
+.timeline-card:hover,
+.about-card:hover,
+.feature-card:hover {
+  border-color: color-mix(in srgb, var(--accent-cyan) 42%, var(--line));
+  transform: translateY(-4px);
+  box-shadow:
+    0 20px 45px color-mix(in srgb, var(--accent-blue) 13%, transparent),
+    0 8px 26px color-mix(in srgb, var(--accent-purple) 10%, transparent);
+}
+
+/* Colorful pills, badges and tags */
+.badge,
+.tag,
+.chip,
+.tech-tag,
+.skill-tag,
+.status-badge {
+  border-color: color-mix(in srgb, var(--accent-cyan) 30%, var(--line));
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--accent-cyan) 10%, transparent),
+      color-mix(in srgb, var(--accent-purple) 10%, transparent)
+    );
+}
+
+/* Icon containers get a subtle gradient */
+.icon-box,
+.icon-wrap,
+.card-icon,
+.skill-icon,
+.service-icon {
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--accent-green) 17%, var(--panel)),
+      color-mix(in srgb, var(--accent-cyan) 17%, var(--panel)),
+      color-mix(in srgb, var(--accent-purple) 17%, var(--panel))
+    );
+  border-color: color-mix(in srgb, var(--accent-purple) 25%, var(--line));
+}
+
+/* Buttons become visually prominent */
+.btn-primary,
+.primary-btn,
+.cta,
+.cta-primary {
+  background: var(--colorful-gradient);
+  border: 0;
+  color: #fff;
+  box-shadow:
+    0 10px 28px color-mix(in srgb, var(--accent-blue) 24%, transparent),
+    0 5px 15px color-mix(in srgb, var(--accent-pink) 13%, transparent);
+}
+
+.btn-primary:hover,
+.primary-btn:hover,
+.cta:hover,
+.cta-primary:hover {
+  filter: saturate(1.12) brightness(1.04);
+  transform: translateY(-2px);
+}
+
+/* Secondary buttons have color too */
+.btn-secondary,
+.secondary-btn,
+.outline-btn {
+  border-color: color-mix(in srgb, var(--accent-blue) 35%, var(--line2));
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--accent-cyan) 7%, var(--panel)),
+    color-mix(in srgb, var(--accent-purple) 8%, var(--panel))
+  );
+}
+
+/* Links */
+a {
+  text-decoration-color: color-mix(in srgb, var(--accent-cyan) 40%, transparent);
+}
+
+a:hover {
+  color: var(--accent-cyan);
+}
+
+/* Navigation gets a premium color wash */
+.navbar,
+.nav,
+header {
+  box-shadow: 0 5px 28px color-mix(in srgb, var(--accent-purple) 8%, transparent);
+}
+
+.navbar::after,
+.nav::after,
+header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--colorful-gradient);
+  opacity: .65;
+}
+
+/* Brand mark */
+.brand-mark {
+  background: var(--colorful-gradient) !important;
+  color: #fff !important;
+  box-shadow:
+    0 8px 22px color-mix(in srgb, var(--accent-purple) 24%, transparent),
+    0 4px 12px color-mix(in srgb, var(--accent-cyan) 18%, transparent);
+}
+
+/* Add color to project/service numbering */
+.project-number,
+.step-number,
+.stage-number,
+.timeline-number {
+  background: var(--colorful-gradient);
+  color: #fff;
+  box-shadow: 0 7px 18px color-mix(in srgb, var(--accent-purple) 20%, transparent);
+}
+
+/* Progress / pipeline visuals */
+.progress-bar,
+.progress-fill,
+.pipeline-progress {
+  background: var(--colorful-gradient);
+  box-shadow: 0 4px 15px color-mix(in srgb, var(--accent-cyan) 22%, transparent);
+}
+
+/* Make statistics visually varied */
+.stat-card:nth-child(4n + 1) { border-top-color: var(--accent-green); }
+.stat-card:nth-child(4n + 2) { border-top-color: var(--accent-cyan); }
+.stat-card:nth-child(4n + 3) { border-top-color: var(--accent-purple); }
+.stat-card:nth-child(4n + 4) { border-top-color: var(--accent-pink); }
+
+/* Form controls */
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--accent-cyan) !important;
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--accent-cyan) 13%, transparent),
+    0 8px 22px color-mix(in srgb, var(--accent-purple) 8%, transparent);
+}
+
+/* Footer accent */
+footer {
+  position: relative;
+}
+
+footer::before {
+  content: "";
+  display: block;
+  height: 2px;
+  margin-bottom: 28px;
+  background: var(--colorful-gradient);
+  opacity: .75;
+}
+
+/* Keep code/terminal areas intentionally dark and technical */
+.terminal,
+.terminal-window,
+.code-block,
+pre,
+.yaml,
+.console,
+.console-output,
+[class*="terminal"],
+[class*="code"] {
+  color-scheme: dark;
+}
+
+/* Selection */
+::selection {
+  background: color-mix(in srgb, var(--accent-purple) 35%, transparent);
+  color: var(--text);
+}
+
+/* Respect reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .card:hover,
+  .stat-card:hover,
+  .project-card:hover,
+  .skill-card:hover,
+  .service-card:hover,
+  .contact-card:hover,
+  .timeline-card:hover,
+  .about-card:hover,
+  .feature-card:hover,
+  .btn-primary:hover,
+  .primary-btn:hover,
+  .cta:hover,
+  .cta-primary:hover {
+    transform: none;
   }
 }
