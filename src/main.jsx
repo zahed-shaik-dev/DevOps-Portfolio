@@ -1,354 +1,1312 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import {
-  Activity, ArrowRight, Check, ChevronDown, ChevronRight, Cloud, Code2,
-  Container, Cpu, ExternalLink, FileCode2, Github, GitBranch, Globe2,
-  Layers3, Linkedin, Menu, Moon, Play, RefreshCcw, Server, ShieldCheck,
-  Sun, Terminal, Zap, X, CircleDot, Database, Gauge
-} from "lucide-react";
 import "./styles.css";
-
 const projects = [
   {
-    id: "devopslab",
-    name: "DevOpsLab Node",
-    provider: "AWS",
-    tools: ["Docker", "GitHub", "CI/CD"],
+    id: "cicd",
+    number: "01",
+    title: "Node.js CI/CD Platform",
+    category: "CI/CD AUTOMATION",
+    description:
+      "Automated testing, Docker image creation and deployment of a Node.js application to AWS EC2 using GitHub Actions.",
+    technologies: ["GitHub Actions", "Docker", "AWS EC2", "Node.js"],
+    status: "DEPLOYED",
+    statusClass: "green",
+    repo: "https://github.com/zahed-shaik-dev/devops-nodejs-cicd",
+    color: "blue",
+    metrics: [
+      ["Pipeline", "Automated"],
+      ["Container", "Docker"],
+      ["Cloud", "AWS EC2"],
+    ],
+  },
+  {
+    id: "cloudops",
+    number: "02",
+    title: "CloudOps360",
+    category: "DEVOPS PLATFORM",
+    description:
+      "A DevOps operations platform combining containerized services, CI/CD workflows and observability with Prometheus and Grafana.",
+    technologies: ["Docker", "Jenkins", "Prometheus", "Grafana"],
     status: "RUNNING",
-    url: "https://github.com/zahed-shaik-dev/DevopsLab-node.git",
-    description: "Containerized Node.js/Express application with a practical DevOps workflow.",
-    architecture: ["Developer → GitHub", "GitHub Actions → Build / Test", "Docker Image → Registry", "Deploy → Runtime"],
-    specs: ["Node.js / Express", "Docker", "Git & GitHub", "CI/CD pipeline"]
+    statusClass: "cyan",
+    repo: "https://github.com/zahed-shaik-dev",
+    color: "cyan",
+    metrics: [
+      ["Services", "Containerized"],
+      ["Monitoring", "Prometheus"],
+      ["Dashboard", "Grafana"],
+    ],
+  },
+  {
+    id: "terraform",
+    number: "03",
+    title: "AWS Infrastructure with Terraform",
+    category: "INFRASTRUCTURE AS CODE",
+    description:
+      "Infrastructure-as-code project for provisioning a structured AWS environment using reusable Terraform configuration.",
+    technologies: ["Terraform", "AWS", "VPC", "EC2", "RDS"],
+    status: "BUILDING",
+    statusClass: "amber",
+    repo: "https://github.com/zahed-shaik-dev",
+    color: "purple",
+    metrics: [
+      ["IaC", "Terraform"],
+      ["Network", "VPC"],
+      ["Compute", "EC2"],
+    ],
   },
   {
     id: "petclinic",
-    name: "Spring Petclinic",
-    provider: "AWS",
-    tools: ["Maven", "Docker", "Jenkins"],
+    number: "04",
+    title: "Spring Petclinic Deployment",
+    category: "JAVA / CI/CD",
+    description:
+      "Containerized Java application with Maven build automation, Jenkins pipeline integration and Docker deployment.",
+    technologies: ["Java", "Maven", "Jenkins", "Docker"],
     status: "STABLE",
-    url: "https://github.com/zahed-shaik-dev/spring-petclinic.git",
-    description: "Java application build and containerization practice focused on repeatable delivery.",
-    architecture: ["Source → Maven Build", "Jenkins → Pipeline", "JAR Artifact → Docker Image", "Container → Application"],
-    specs: ["Java / Spring Boot", "Maven", "Docker", "Jenkins"]
+    statusClass: "green",
+    repo: "https://github.com/zahed-shaik-dev",
+    color: "orange",
+    metrics: [
+      ["Build", "Maven"],
+      ["Automation", "Jenkins"],
+      ["Runtime", "Docker"],
+    ],
   },
-  {
-    id: "linux-monitor",
-    name: "Linux Monitor Project",
-    provider: "Linux",
-    tools: ["Linux", "Shell", "Observability"],
-    status: "MONITORED",
-    url: "https://github.com/zahed-shaik-dev/linux-monitor-project.git",
-    description: "Linux monitoring project for system health, resource visibility and operational practice.",
-    architecture: ["Linux Host → Metrics", "Shell → Health Checks", "Logs → Alerts / Review", "Operator → Remediation"],
-    specs: ["Linux", "Shell scripting", "Monitoring", "Operational troubleshooting"]
-  },
-  {
-    id: "multi-service",
-    name: "Multi-Service Application",
-    provider: "AWS",
-    tools: ["Docker", "Docker Compose", "GitHub"],
-    status: "RUNNING",
-    url: "https://github.com/zahed-shaik-dev/Multi-Service-Application.git",
-    description: "Multi-service application demonstrating containerized service boundaries and orchestration concepts.",
-    architecture: ["Client → Service A", "Service A → Service B", "Services → Data Layer", "Compose → Local orchestration"],
-    specs: ["Docker", "Docker Compose", "Networking", "Service architecture"]
-  },
-  {
-    id: "vyron",
-    name: "VYRON Fashion",
-    provider: "Azure",
-    tools: ["React", "Docker", "CI/CD"],
-    status: "BUILDING",
-    url: "https://github.com/zahed-shaik-dev/VYRON-Fashion.git",
-    description: "Modern e-commerce project with a frontend-first product experience and container deployment workflow.",
-    architecture: ["React UI → API", "API → Services / Data", "Docker → App Containers", "CI/CD → Deployment"],
-    specs: ["React", "Node.js", "Docker", "Responsive UI"]
-  }
 ];
 
-const layers = [
+const stackGroups = [
   {
-    title: "Source & Automation",
-    tag: "01",
-    icon: GitBranch,
-    skills: ["Linux", "Git", "GitHub", "GitHub Actions", "Shell"],
-    accent: "green"
-  },
-  {
-    title: "Containers & Orchestration",
-    tag: "02",
-    icon: Container,
-    skills: ["Docker", "Docker Compose", "Kubernetes"],
-    accent: "blue"
-  },
-  {
+    id: "cloud",
     title: "Cloud Infrastructure",
-    tag: "03",
-    icon: Cloud,
-    skills: ["AWS", "Azure", "GCP"],
-    accent: "amber"
+    icon: "☁",
+    color: "blue",
+    description:
+      "Cloud platforms and infrastructure components used to provision and operate applications.",
+    technologies: [
+      {
+        name: "AWS",
+        level: "Hands-on",
+        detail: "EC2 • VPC • IAM • RDS",
+      },
+      {
+        name: "EC2",
+        level: "Hands-on",
+        detail: "Compute • SSH • Deployment",
+      },
+      {
+        name: "VPC",
+        level: "Learning",
+        detail: "Networking • Subnets • Routing",
+      },
+      {
+        name: "Azure",
+        level: "Learning",
+        detail: "App Service • Cloud deployment",
+      },
+    ],
   },
   {
-    title: "IaC & Observability",
-    tag: "04",
-    icon: Activity,
-    skills: ["Terraform", "Observability", "Monitoring", "Logs"],
-    accent: "slate"
-  }
+    id: "cicd",
+    title: "CI / CD",
+    icon: "⇢",
+    color: "cyan",
+    description:
+      "Automation tools used to move code from source control through testing and deployment.",
+    technologies: [
+      {
+        name: "GitHub Actions",
+        level: "Hands-on",
+        detail: "Build • Test • Deploy",
+      },
+      {
+        name: "Jenkins",
+        level: "Hands-on",
+        detail: "Pipelines • Automation",
+      },
+      {
+        name: "Git",
+        level: "Hands-on",
+        detail: "Version control • Branching",
+      },
+      {
+        name: "Maven",
+        level: "Hands-on",
+        detail: "Java builds • Dependencies",
+      },
+    ],
+  },
+  {
+    id: "containers",
+    title: "Containers",
+    icon: "▣",
+    color: "green",
+    description:
+      "Containerization workflows for consistent application builds and deployments.",
+    technologies: [
+      {
+        name: "Docker",
+        level: "Hands-on",
+        detail: "Images • Containers • Compose",
+      },
+      {
+        name: "Docker Compose",
+        level: "Hands-on",
+        detail: "Multi-container applications",
+      },
+      {
+        name: "Kubernetes",
+        level: "Learning",
+        detail: "Pods • Deployments • Services",
+      },
+    ],
+  },
+  {
+    id: "iac",
+    title: "Infrastructure as Code",
+    icon: "⌘",
+    color: "purple",
+    description:
+      "Declarative infrastructure management with a focus on repeatable cloud provisioning.",
+    technologies: [
+      {
+        name: "Terraform",
+        level: "Learning",
+        detail: "AWS provisioning • Modules",
+      },
+      {
+        name: "Terraform Cloud",
+        level: "Exploring",
+        detail: "Remote infrastructure workflows",
+      },
+    ],
+  },
+  {
+    id: "observability",
+    title: "Observability",
+    icon: "◉",
+    color: "orange",
+    description:
+      "Metrics and visualization tools used to understand system health and performance.",
+    technologies: [
+      {
+        name: "Prometheus",
+        level: "Hands-on",
+        detail: "Metrics • Queries • Targets",
+      },
+      {
+        name: "Grafana",
+        level: "Hands-on",
+        detail: "Dashboards • Visualization",
+      },
+    ],
+  },
+  {
+    id: "linux",
+    title: "Linux & Automation",
+    icon: "$",
+    color: "amber",
+    description:
+      "Core operating-system and scripting knowledge supporting automation and infrastructure work.",
+    technologies: [
+      {
+        name: "Linux",
+        level: "Hands-on",
+        detail: "Shell • Processes • Services",
+      },
+      {
+        name: "Bash",
+        level: "Hands-on",
+        detail: "Automation • CLI workflows",
+      },
+      {
+        name: "Python",
+        level: "Learning",
+        detail: "Automation • APIs • Scripts",
+      },
+    ],
+  },
 ];
 
 const pipelineStages = [
   {
-    key: "source", label: "SOURCE", sub: "Git / GitHub", icon: GitBranch,
-    log: ["[INFO] Source event received", "[OK] Git repository connected", "[OK] Commit history available", "[INFO] Handoff → BUILD"]
+    id: "source",
+    step: "01",
+    title: "Source",
+    tool: "GitHub",
+    color: "blue",
+    description:
+      "Developer pushes code to the main branch and the automated workflow starts.",
+    command: "git push origin main",
   },
   {
-    key: "build", label: "BUILD", sub: "Docker / Maven", icon: Container,
-    log: ["[INFO] Build runner initialized", "[OK] Dependencies resolved", "[OK] Artifact generated", "[INFO] Container image ready"]
+    id: "build",
+    step: "02",
+    title: "Build",
+    tool: "GitHub Actions",
+    color: "cyan",
+    description:
+      "The CI runner installs dependencies, validates the application and prepares the build.",
+    command: "npm ci && npm run build",
   },
   {
-    key: "test", label: "TEST", sub: "Checks / Health", icon: ShieldCheck,
-    log: ["[INFO] Automated checks started", "[OK] Application health check", "[OK] Container health verified", "[INFO] Quality gate passed"]
+    id: "test",
+    step: "03",
+    title: "Test",
+    tool: "CI Tests",
+    color: "purple",
+    description:
+      "Automated tests validate the application before an image is promoted for deployment.",
+    command: "npm test",
   },
   {
-    key: "deploy", label: "DEPLOY", sub: "Cloud / Runtime", icon: Cloud,
-    log: ["[INFO] Deployment target selected", "[OK] Runtime configuration applied", "[OK] Service responding", "[SUCCESS] Delivery complete"]
-  }
+    id: "deploy",
+    step: "04",
+    title: "Deploy",
+    tool: "Docker + AWS",
+    color: "green",
+    description:
+      "The Docker image is published and the application is deployed to AWS infrastructure.",
+    command: "docker build && docker push",
+  },
+];
+
+const architectureNodes = [
+  {
+    id: "developer",
+    label: "Developer",
+    icon: "⌘",
+    color: "blue",
+    text: "Write code, commit changes and push the application to source control.",
+  },
+  {
+    id: "github",
+    label: "GitHub",
+    icon: "●",
+    color: "cyan",
+    text: "Source control and the starting point for the CI/CD workflow.",
+  },
+  {
+    id: "pipeline",
+    label: "CI Pipeline",
+    icon: "⇢",
+    color: "purple",
+    text: "Automates build, validation, testing and release activities.",
+  },
+  {
+    id: "docker",
+    label: "Docker",
+    icon: "▣",
+    color: "cyan",
+    text: "Packages the application into a portable container image.",
+  },
+  {
+    id: "aws",
+    label: "AWS EC2",
+    icon: "☁",
+    color: "orange",
+    text: "Runs the deployed containerized application in the cloud.",
+  },
+  {
+    id: "observe",
+    label: "Observability",
+    icon: "◉",
+    color: "green",
+    text: "Prometheus collects metrics while Grafana provides visualization.",
+  },
 ];
 
 function App() {
-  const [dark, setDark] = useState(true);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [stage, setStage] = useState("source");
-  const [health, setHealth] = useState({});
-  const [filterProvider, setFilterProvider] = useState("ALL");
-  const [filterTool, setFilterTool] = useState("ALL");
-  const [expanded, setExpanded] = useState("devopslab");
-  const [chaos, setChaos] = useState(false);
-  const [healing, setHealing] = useState(false);
-  const [scale, setScale] = useState("Medium");
-  const [cloud, setCloud] = useState("AWS");
-  const [compliance, setCompliance] = useState("Standard");
+  const [darkMode, setDarkMode] = useState(true);
+  const [mobileMenu, setMobileMenu] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
+  const [activeStage, setActiveStage] = useState("source");
+  const [activeStack, setActiveStack] = useState("cloud");
+  const [selectedTechnology, setSelectedTechnology] = useState(null);
+  const [selectedArchitecture, setSelectedArchitecture] =
+    useState("developer");
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    document.documentElement.classList.toggle("light", !dark);
-  }, [dark]);
+    document.documentElement.classList.toggle("light-mode", !darkMode);
+    document.documentElement.style.colorScheme = darkMode
+      ? "dark"
+      : "light";
+  }, [darkMode]);
 
-  const activeStage = pipelineStages.find(s => s.key === stage);
-  const filtered = useMemo(() => projects.filter(p =>
-    (filterProvider === "ALL" || p.provider === filterProvider) &&
-    (filterTool === "ALL" || p.tools.includes(filterTool))
-  ), [filterProvider, filterTool]);
+  useEffect(() => {
+    const sections = document.querySelectorAll("section[id]");
 
-  const checkHealth = (name) => {
-    setHealth(h => ({...h, [name]: "CHECKING"}));
-    setTimeout(() => setHealth(h => ({...h, [name]: "HEALTHY"})), 850);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+        if (visible.length) {
+          setActiveSection(visible[0].target.id);
+        }
+      },
+      {
+        threshold: [0.15, 0.35, 0.6],
+        rootMargin: "-15% 0px -55% 0px",
+      }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const revealElements = document.querySelectorAll(".reveal");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      },
+      { threshold: 0.08 }
+    );
+
+    revealElements.forEach((element) => observer.observe(element));
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const handleKey = (event) => {
+      if (event.key === "Escape") {
+        setSelectedProject(null);
+        setMobileMenu(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKey);
+
+    return () => window.removeEventListener("keydown", handleKey);
+  }, []);
+
+  const scrollTo = (id) => {
+    document.getElementById(id)?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+
+    setMobileMenu(false);
   };
 
-  const triggerChaos = () => {
-    setChaos(true);
-    setHealing(false);
-    setTimeout(() => setHealing(true), 1450);
-    setTimeout(() => { setChaos(false); setHealing(false); }, 3300);
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText("zahed.h.shaik@gmail.com");
+      setCopied(true);
+
+      setTimeout(() => {
+        setCopied(false);
+      }, 2200);
+    } catch {
+      window.location.href = "mailto:zahed.h.shaik@gmail.com";
+    }
   };
 
-  const spec = `target:
-  cloud: ${cloud}
-  scale: ${scale}
-  compliance: ${compliance}
-  availability: ${scale === "Enterprise" ? "multi-zone" : "standard"}
-  delivery: CI/CD
-  containers: Docker
-  observability: enabled`;
+  const activePipeline =
+    pipelineStages.find((stage) => stage.id === activeStage) ||
+    pipelineStages[0];
+
+  const currentStack =
+    stackGroups.find((group) => group.id === activeStack) ||
+    stackGroups[0];
+
+  const currentArchitecture =
+    architectureNodes.find(
+      (node) => node.id === selectedArchitecture
+    ) || architectureNodes[0];
 
   return (
-    <div className="min-h-screen">
-      <header className="nav-shell">
-       <a href="#home" className="brand">
-  <span className="brand-mark">ZH</span>
-  <div>
-  <strong>Zahed<span className="brand-dot">.</span></strong>
-  <span>DevOps</span>
-</div>
+    <div className="app-shell">
+      <div className="ambient ambient-one" />
+      <div className="ambient ambient-two" />
+      <div className="ambient ambient-three" />
+
+      <header className="site-header">
+        <div className="header-inner">
+          <a
+  className="brand"
+  href="#home"
+  onClick={() => scrollTo("home")}
+>
+  <span className="brand-infinity">∞</span>
+  <span className="brand-name">
+    zahed<span>.devops</span>
+  </span>
 </a>
-        <nav className={mobileOpen ? "nav-links open" : "nav-links"}>
-          {["stack","projects","estimator","contact"].map(x =>
-            <a key={x} href={`#${x}`} onClick={() => setMobileOpen(false)}>{x}</a>
-          )}
-        </nav>
-        <div className="nav-actions">
-          <button className="icon-btn" onClick={() => setDark(v => !v)} title="Toggle theme">
-            {dark ? <Sun size={17}/> : <Moon size={17}/>}
-          </button>
-          <a className="top-github" href="https://github.com/zahed-shaik-dev" target="_blank" rel="noreferrer"><Github size={16}/> GitHub</a>
-          <button className="icon-btn mobile-only" onClick={() => setMobileOpen(v => !v)}>{mobileOpen ? <X/> : <Menu/>}</button>
+
+          <nav className={`main-nav ${mobileMenu ? "open" : ""}`}>
+            {[
+              ["home", "Home"],
+              ["work", "Work"],
+              ["stack", "Stack"],
+              ["pipeline", "Pipeline"],
+              ["architecture", "Architecture"],
+              ["about", "About"],
+            ].map(([id, label]) => (
+              <button
+                key={id}
+                className={activeSection === id ? "active" : ""}
+                onClick={() => scrollTo(id)}
+              >
+                {label}
+              </button>
+            ))}
+
+            <button
+              className="nav-contact"
+              onClick={() => scrollTo("contact")}
+            >
+              Contact <span>↗</span>
+            </button>
+          </nav>
+
+          <div className="header-actions">
+            <button
+              className="theme-toggle"
+              onClick={() => setDarkMode((value) => !value)}
+              aria-label="Toggle theme"
+              title="Toggle theme"
+            >
+              <span>{darkMode ? "☼" : "☾"}</span>
+            </button>
+
+            <button
+              className="mobile-toggle"
+              onClick={() => setMobileMenu((value) => !value)}
+              aria-label="Toggle navigation"
+            >
+              {mobileMenu ? "×" : "☰"}
+            </button>
+          </div>
         </div>
       </header>
 
-      <main id="top">
-        <section className="hero section">
-          <div className="hero-copy">
-            <div className="eyebrow"><span className="live-dot"/> AVAILABLE FOR DEVOPS OPPORTUNITIES</div>
-            <h1>Infrastructure<br/><span>with intent.</span></h1>
-            <p className="hero-lead">Aspiring DevOps Engineer focused on Linux, containers, CI/CD and cloud infrastructure — building reliable systems one deployment at a time.</p>
-            <div className="hero-meta">
-              <span><MapPin/> Hyderabad, India</span>
-              <span><CircleDot/> Open to opportunities</span>
-            </div>
-            <div className="hero-buttons">
-              <a href="#projects" className="btn primary">Inspect Projects <ArrowRight size={17}/></a>
-              <a href="mailto:zahed.h.shaik@gmail.com" className="btn secondary">Contact Me</a>
-            </div>
-          </div>
+      <main>
+        {/* HERO */}
+        <section id="home" className="hero section">
+          <div className="container hero-grid">
+            <div className="hero-copy reveal">
+              <div className="eyebrow">
+                <span className="live-dot" />
+                AVAILABLE FOR ENTRY-LEVEL OPPORTUNITIES
+              </div>
 
-          <div className="pipeline-panel">
-            <div className="panel-head">
-              <div><span className="kicker">LIVE SIMULATION</span><h2>CI/CD PIPELINE</h2></div>
-              <span className="status-pill success"><span/> ONLINE</span>
-            </div>
-            <div className="pipeline">
-              {pipelineStages.map((s, i) => {
-                const Icon = s.icon;
-                return <React.Fragment key={s.key}>
-                  <button className={`stage ${stage === s.key ? "active" : ""}`} onClick={() => setStage(s.key)}>
-                    <div className="stage-num">0{i+1}</div>
-                    <Icon size={21}/>
-                    <strong>{s.label}</strong>
-                    <small>{s.sub}</small>
-                  </button>
-                  {i < pipelineStages.length - 1 && <div className="pipe-line"><span/></div>}
-                </React.Fragment>
-              })}
-            </div>
-            <div className={`terminal ${chaos ? "terminal-chaos" : ""}`}>
-              <div className="terminal-bar"><span/><span/><span/><b>deploy@zahed:~/{stage}</b></div>
-              <div className="terminal-body">
-                <div className="terminal-command">$ ./inspect --stage {stage} --mode portfolio</div>
-                {chaos ? (
-                  <div className="log-stack"><div className="critical">[CRITICAL] chaos-monkey injected transient UI fault</div><div className="critical">[CRITICAL] non-critical component unavailable</div>{healing && <div className="success-log">[SELF-HEAL] rollback + health check + restore → OK</div>}</div>
-                ) : (
-                  <div className="log-stack">{activeStage.log.map((x, i) => <div key={i} className={x.includes("[OK]") || x.includes("[SUCCESS]") ? "success-log" : ""}>{x}</div>)}</div>
-                )}
-                <div className="cursor-line"><span>_</span></div>
+              <h1>
+                Engineering the path
+                <span> from code to cloud.</span>
+              </h1>
+
+              <p className="hero-description">
+                I'm Zahed Hussain Shaik, a DevOps Engineer
+                focused on automation, cloud infrastructure,
+                containerization and reliable delivery.
+              </p>
+
+              <div className="hero-actions">
+                <button
+                  className="primary-button"
+                  onClick={() => scrollTo("work")}
+                >
+                  Explore my work
+                  <span>↗</span>
+                </button>
+
+                <button
+                  className="secondary-button"
+                  onClick={() => scrollTo("contact")}
+                >
+                  Let's connect
+                </button>
+              </div>
+
+              <div className="hero-techline">
+                <span>BUILDING WITH</span>
+                <b>AWS</b>
+                <i />
+                <b>DOCKER</b>
+                <i />
+                <b>TERRAFORM</b>
+                <i />
+                <b>CI/CD</b>
               </div>
             </div>
-            <div className="stage-detail">
-              <div className="detail-label">STAGE CONTEXT</div>
-              <p>{stage === "source" && "Version control is the system of record. Git and GitHub are the starting point for repeatable delivery."}
-                 {stage === "build" && "Build automation turns source into reproducible artifacts and container images."}
-                 {stage === "test" && "Health checks and automated validation protect the path to production."}
-                 {stage === "deploy" && "Cloud and container runtime concepts connect engineering work to usable services."}</p>
-            </div>
-          </div>
-        </section>
 
-        <section className="ticker">
-          <div>DEVOPS ENGINEERING</div><div>LINUX</div><div>CONTAINERS</div><div>CI/CD</div><div>CLOUD</div><div>INFRASTRUCTURE AS CODE</div><div>OBSERVABILITY</div>
-        </section>
+            <div className="hero-visual reveal reveal-delay">
+              <div className="visual-header">
+                <span>DELIVERY PIPELINE</span>
+                <span className="visual-live">
+                  <i /> LIVE SYSTEM
+                </span>
+              </div>
 
-        <section id="stack" className="section">
-          <div className="section-heading">
-            <div><span className="kicker">SYSTEM MAP / 01</span><h2>Infrastructure Stack</h2></div>
-            <p>Hover or tap a tool to run a simulated health check.</p>
-          </div>
-          <div className="layers-grid">
-            {layers.map(layer => {
-              const Icon = layer.icon;
-              return <article className={`layer-card ${layer.accent}`} key={layer.title}>
-                <div className="layer-top"><span>{layer.tag}</span><Icon size={19}/></div>
-                <h3>{layer.title}</h3>
-                <div className="skill-list">
-                  {layer.skills.map(skill => {
-                    const state = health[skill];
-                    return <button key={skill} className="skill-chip" onMouseEnter={() => checkHealth(skill)} onClick={() => checkHealth(skill)}>
-                      <span className="health-dot"/><span>{skill}</span><em>{state === "CHECKING" ? "[CHECKING]" : state === "HEALTHY" ? "[HEALTHY]" : "[PENDING]"}</em>
-                    </button>
-                  })}
+              <div className="pipeline-visual">
+                <div className="pipeline-line" />
+
+                {pipelineStages.map((stage, index) => (
+                  <button
+                    key={stage.id}
+                    className={`pipeline-node ${
+                      activeStage === stage.id ? "selected" : ""
+                    } ${stage.color}`}
+                    onClick={() => setActiveStage(stage.id)}
+                    style={{
+                      "--node-index": index,
+                    }}
+                  >
+                    <span className="node-number">
+                      {stage.step}
+                    </span>
+
+                    <span className="node-icon">
+                      {stage.id === "source" && "⌘"}
+                      {stage.id === "build" && "⚙"}
+                      {stage.id === "test" && "✓"}
+                      {stage.id === "deploy" && "↗"}
+                    </span>
+
+                    <strong>{stage.title}</strong>
+                    <small>{stage.tool}</small>
+                  </button>
+                ))}
+              </div>
+
+              <div className="pipeline-detail">
+                <div className="pipeline-detail-top">
+                  <span className={`stage-tag ${activePipeline.color}`}>
+                    {activePipeline.step} / 04
+                  </span>
+
+                  <span className="stage-tool">
+                    {activePipeline.tool}
+                  </span>
                 </div>
-              </article>
-            })}
+
+                <h3>{activePipeline.title}</h3>
+
+                <p>{activePipeline.description}</p>
+
+                <div className="command-line">
+                  <span>$</span>
+                  {activePipeline.command}
+                  <b>▋</b>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="hero-scroll">
+            <span>SCROLL TO EXPLORE</span>
+            <i />
           </div>
         </section>
 
-        <section id="projects" className="section">
-          <div className="section-heading">
-            <div><span className="kicker">OPERATIONS / 02</span><h2>Project Log Matrix</h2></div>
-            <p>Filter the lab by provider or tool, then inspect the architecture trace.</p>
+        {/* MARQUEE */}
+        <div className="technology-marquee">
+          <div className="marquee-track">
+            {[
+              "AWS",
+              "DOCKER",
+              "JENKINS",
+              "GITHUB ACTIONS",
+              "TERRAFORM",
+              "KUBERNETES",
+              "PROMETHEUS",
+              "GRAFANA",
+            ].map((item) => (
+              <span key={item}>
+                <b>◆</b> {item}
+              </span>
+            ))}
+
+            {[
+              "AWS",
+              "DOCKER",
+              "JENKINS",
+              "GITHUB ACTIONS",
+              "TERRAFORM",
+              "KUBERNETES",
+              "PROMETHEUS",
+              "GRAFANA",
+            ].map((item) => (
+              <span key={`copy-${item}`}>
+                <b>◆</b> {item}
+              </span>
+            ))}
           </div>
-          <div className="console">
-            <div className="console-toolbar">
-              <div className="filter"><span>PROVIDER</span><select value={filterProvider} onChange={e=>setFilterProvider(e.target.value)}><option>ALL</option><option>AWS</option><option>Azure</option><option>Linux</option></select></div>
-              <div className="filter"><span>TOOL</span><select value={filterTool} onChange={e=>setFilterTool(e.target.value)}><option>ALL</option><option>Docker</option><option>GitHub</option><option>CI/CD</option><option>Jenkins</option><option>Shell</option><option>React</option></select></div>
-              <div className="console-count"><span className="live-dot"/> {filtered.length} RECORDS</div>
+        </div>
+
+        {/* WORK */}
+        <section id="work" className="section work-section">
+          <div className="container">
+            <div className="section-heading reveal">
+              <div>
+                <span className="section-kicker">01 / SELECTED WORK</span>
+
+                <h2>
+                  Systems I've
+                  <span> built.</span>
+                </h2>
+              </div>
+
+              <p>
+                Hands-on projects focused on deployment automation,
+                infrastructure, containers and observability.
+              </p>
             </div>
-            <div className="project-table">
-              <div className="table-head"><span>PROJECT</span><span>PROVIDER</span><span>TOOLCHAIN</span><span>STATUS</span><span></span></div>
-              {filtered.map(p => <div className="project-row-wrap" key={p.id}>
-                <button className="project-row" onClick={() => setExpanded(expanded === p.id ? null : p.id)}>
-                  <span className="project-name"><span className="row-index">#{String(projects.indexOf(p)+1).padStart(2,"0")}</span><b>{p.name}</b></span>
-                  <span>{p.provider}</span>
-                  <span className="tool-tags">{p.tools.map(t=><i key={t}>{t}</i>)}</span>
-                  <span className={`status-text ${p.status === "BUILDING" ? "amber" : "green"}`}><span/> {p.status}</span>
-                  <ChevronDown className={expanded === p.id ? "rotate" : ""} size={17}/>
-                </button>
-                {expanded === p.id && <div className="project-expand">
-                  <div className="expand-copy"><span className="kicker">ARCHITECTURE TRACE</span><p>{p.description}</p><a href={p.url} target="_blank" rel="noreferrer">Open repository <ExternalLink size={14}/></a><div className="spec-tags">{p.specs.map(s=><span key={s}>{s}</span>)}</div></div>
-                  <pre>{p.architecture.join("\n  ↓\n")}</pre>
-                </div>}
-              </div>)}
+
+            <div className="project-grid">
+              {projects.map((project, index) => (
+                <article
+                  key={project.id}
+                  className={`project-card ${project.color} reveal`}
+                  style={{ "--delay": `${index * 80}ms` }}
+                  onClick={() => setSelectedProject(project)}
+                >
+                  <div className="project-top">
+                    <span className="project-number">
+                      {project.number}
+                    </span>
+
+                    <span className={`status ${project.statusClass}`}>
+                      <i />
+                      {project.status}
+                    </span>
+                  </div>
+
+                  <div className="project-visual">
+                    <div className="visual-grid" />
+
+                    <div className="project-orbit orbit-one" />
+                    <div className="project-orbit orbit-two" />
+
+                    <div className="project-core">
+                      <span>
+                        {project.id === "cicd" && "CI"}
+                        {project.id === "cloudops" && "OPS"}
+                        {project.id === "terraform" && "TF"}
+                        {project.id === "petclinic" && "JVM"}
+                      </span>
+                    </div>
+
+                    <div className="floating-label label-one">
+                      {project.technologies[0]}
+                    </div>
+
+                    <div className="floating-label label-two">
+                      {project.technologies[2]}
+                    </div>
+                  </div>
+
+                  <div className="project-content">
+                    <span className="project-category">
+                      {project.category}
+                    </span>
+
+                    <h3>{project.title}</h3>
+
+                    <p>{project.description}</p>
+
+                    <div className="project-footer">
+                      <div className="tech-list">
+                        {project.technologies.slice(0, 3).map((tech) => (
+                          <span key={tech}>{tech}</span>
+                        ))}
+                      </div>
+
+                      <span className="open-project">↗</span>
+                    </div>
+                  </div>
+                </article>
+              ))}
             </div>
           </div>
         </section>
 
-        <section id="estimator" className="section">
-          <div className="section-heading">
-            <div><span className="kicker">ARCHITECTURE / 03</span><h2>Cost & Architecture Estimator</h2></div>
-            <p>Generate a lightweight infrastructure brief from a hiring-manager scenario.</p>
-          </div>
-          <div className="estimator">
-            <div className="config">
-              <div className="config-head"><Gauge size={19}/><span>CONFIGURE TARGET</span></div>
-              <label>Cloud Provider<select value={cloud} onChange={e=>setCloud(e.target.value)}><option>AWS</option><option>Azure</option></select></label>
-              <label>Architecture Scale<select value={scale} onChange={e=>setScale(e.target.value)}><option>Small</option><option>Medium</option><option>Enterprise</option></select></label>
-              <label>Compliance<select value={compliance} onChange={e=>setCompliance(e.target.value)}><option>Standard</option><option>Security-focused</option><option>Regulated</option></select></label>
-              <div className="est-note"><ShieldCheck size={16}/> Spec is an illustrative planning output, not a cloud price quote.</div>
+        {/* STACK */}
+        <section id="stack" className="section stack-section">
+          <div className="container">
+            <div className="section-heading reveal">
+              <div>
+                <span className="section-kicker">02 / TECHNOLOGY STACK</span>
+
+                <h2>
+                  Tools behind
+                  <span> the work.</span>
+                </h2>
+              </div>
+
+              <p>
+                A growing engineering toolkit built through projects,
+                experimentation and hands-on practice.
+              </p>
             </div>
-            <div className="yaml">
-              <div className="yaml-head"><FileCode2 size={17}/> generated-spec.yaml <span>LIVE</span></div>
-              <pre>{spec}</pre>
-              <div className="yaml-footer"><Check size={15}/> Configuration validated</div>
+
+            <div className="stack-layout">
+              <div className="stack-navigation reveal">
+                {stackGroups.map((group) => (
+                  <button
+                    key={group.id}
+                    className={`${activeStack === group.id ? "active" : ""} ${group.color}`}
+                    onClick={() => {
+                      setActiveStack(group.id);
+                      setSelectedTechnology(null);
+                    }}
+                  >
+                    <span className="stack-icon">{group.icon}</span>
+
+                    <span>
+                      <strong>{group.title}</strong>
+                      <small>
+                        {group.technologies.length} technologies
+                      </small>
+                    </span>
+
+                    <b>→</b>
+                  </button>
+                ))}
+              </div>
+
+              <div className="stack-inspector reveal reveal-delay">
+                <div className="inspector-top">
+                  <div>
+                    <span className={`inspector-icon ${currentStack.color}`}>
+                      {currentStack.icon}
+                    </span>
+
+                    <div>
+                      <span className="section-kicker">
+                        TECHNOLOGY GROUP
+                      </span>
+
+                      <h3>{currentStack.title}</h3>
+                    </div>
+                  </div>
+
+                  <span className="inspector-count">
+                    {String(currentStack.technologies.length).padStart(
+                      2,
+                      "0"
+                    )}
+                  </span>
+                </div>
+
+                <p className="inspector-description">
+                  {currentStack.description}
+                </p>
+
+                <div className="technology-list">
+                  {currentStack.technologies.map((technology) => (
+                    <button
+                      key={technology.name}
+                      className={
+                        selectedTechnology?.name === technology.name
+                          ? "selected"
+                          : ""
+                      }
+                      onClick={() =>
+                        setSelectedTechnology(technology)
+                      }
+                    >
+                      <span className="technology-dot" />
+
+                      <span>
+                        <strong>{technology.name}</strong>
+                        <small>{technology.detail}</small>
+                      </span>
+
+                      <em>{technology.level}</em>
+                    </button>
+                  ))}
+                </div>
+
+                <div className="inspector-terminal">
+                  <span>$</span>
+                  {selectedTechnology
+                    ? `focus --tool ${selectedTechnology.name
+                        .toLowerCase()
+                        .replaceAll(" ", "-")}`
+                    : `stack --inspect ${currentStack.id}`}
+                  <b>▋</b>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
-        <section className="chaos-section">
-          <div>
-            <span className="kicker">FAULT INJECTION LAB</span>
-            <h2>Trust the system. Then break it.</h2>
-            <p>Trigger a controlled UI failure to see the portfolio's self-healing simulation.</p>
+        {/* PIPELINE */}
+        <section id="pipeline" className="section pipeline-section">
+          <div className="container">
+            <div className="section-heading reveal">
+              <div>
+                <span className="section-kicker">03 / AUTOMATION</span>
+
+                <h2>
+                  From commit
+                  <span> to production.</span>
+                </h2>
+              </div>
+
+              <p>
+                The delivery mindset behind my DevOps projects:
+                repeatable, automated and observable.
+              </p>
+            </div>
+
+            <div className="pipeline-system reveal">
+              <div className="pipeline-stage-list">
+                {pipelineStages.map((stage) => (
+                  <button
+                    key={stage.id}
+                    className={`${activeStage === stage.id ? "active" : ""} ${stage.color}`}
+                    onClick={() => setActiveStage(stage.id)}
+                  >
+                    <span className="stage-index">{stage.step}</span>
+
+                    <span className="stage-symbol">
+                      {stage.id === "source" && "⌘"}
+                      {stage.id === "build" && "⚙"}
+                      {stage.id === "test" && "✓"}
+                      {stage.id === "deploy" && "↗"}
+                    </span>
+
+                    <span className="stage-copy">
+                      <strong>{stage.title}</strong>
+                      <small>{stage.tool}</small>
+                    </span>
+
+                    <span className="stage-arrow">→</span>
+                  </button>
+                ))}
+              </div>
+
+              <div className="pipeline-explanation">
+                <div className="explanation-number">
+                  {activePipeline.step}
+                </div>
+
+                <span className={`section-kicker ${activePipeline.color}`}>
+                  PIPELINE STAGE
+                </span>
+
+                <h3>{activePipeline.title}</h3>
+
+                <p>{activePipeline.description}</p>
+
+                <div className="execution-box">
+                  <div className="execution-header">
+                    <span>EXECUTION</span>
+                    <span>
+                      <i /> READY
+                    </span>
+                  </div>
+
+                  <div className="execution-command">
+                    <span>~</span>
+                    {activePipeline.command}
+                  </div>
+                </div>
+
+                <div className="execution-progress">
+                  {pipelineStages.map((stage) => (
+                    <span
+                      key={stage.id}
+                      className={
+                        stage.id === activeStage ? "active" : ""
+                      }
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
-          <button className="chaos-btn" onClick={triggerChaos} disabled={chaos}><Zap size={16}/> {chaos ? "RECOVERY IN PROGRESS" : "TRIGGER CHAOS MONKEY"}</button>
         </section>
 
+        {/* ARCHITECTURE */}
+        <section
+          id="architecture"
+          className="section architecture-section"
+        >
+          <div className="container">
+            <div className="section-heading reveal">
+              <div>
+                <span className="section-kicker">
+                  04 / SYSTEM ARCHITECTURE
+                </span>
+
+                <h2>
+                  Think in
+                  <span> systems.</span>
+                </h2>
+              </div>
+
+              <p>
+                A simplified view of how source control, automation,
+                containers, cloud infrastructure and observability
+                connect.
+              </p>
+            </div>
+
+            <div className="architecture-layout reveal">
+              <div className="architecture-map">
+                <div className="map-grid" />
+
+                <svg
+                  className="architecture-lines"
+                  viewBox="0 0 900 500"
+                  preserveAspectRatio="none"
+                >
+                  <path d="M120 250 C200 250 220 120 300 120" />
+                  <path d="M300 120 C390 120 410 250 480 250" />
+                  <path d="M480 250 C570 250 580 120 670 120" />
+                  <path d="M480 250 C570 250 580 380 670 380" />
+                  <path d="M670 120 C760 120 780 250 830 250" />
+                  <path d="M670 380 C760 380 780 250 830 250" />
+                </svg>
+
+                <div className="architecture-node node-developer">
+                  <button
+                    className={
+                      selectedArchitecture === "developer"
+                        ? "active"
+                        : ""
+                    }
+                    onClick={() =>
+                      setSelectedArchitecture("developer")
+                    }
+                  >
+                    <span>⌘</span>
+                    <strong>Developer</strong>
+                    <small>Code</small>
+                  </button>
+                </div>
+
+                <div className="architecture-node node-github">
+                  <button
+                    className={
+                      selectedArchitecture === "github" ? "active" : ""
+                    }
+                    onClick={() =>
+                      setSelectedArchitecture("github")
+                    }
+                  >
+                    <span>●</span>
+                    <strong>GitHub</strong>
+                    <small>Source</small>
+                  </button>
+                </div>
+
+                <div className="architecture-node node-pipeline">
+                  <button
+                    className={
+                      selectedArchitecture === "pipeline"
+                        ? "active"
+                        : ""
+                    }
+                    onClick={() =>
+                      setSelectedArchitecture("pipeline")
+                    }
+                  >
+                    <span>⇢</span>
+                    <strong>CI Pipeline</strong>
+                    <small>Automate</small>
+                  </button>
+                </div>
+
+                <div className="architecture-node node-docker">
+                  <button
+                    className={
+                      selectedArchitecture === "docker" ? "active" : ""
+                    }
+                    onClick={() =>
+                      setSelectedArchitecture("docker")
+                    }
+                  >
+                    <span>▣</span>
+                    <strong>Docker</strong>
+                    <small>Package</small>
+                  </button>
+                </div>
+
+                <div className="architecture-node node-aws">
+                  <button
+                    className={
+                      selectedArchitecture === "aws" ? "active" : ""
+                    }
+                    onClick={() => setSelectedArchitecture("aws")}
+                  >
+                    <span>☁</span>
+                    <strong>AWS EC2</strong>
+                    <small>Deploy</small>
+                  </button>
+                </div>
+
+                <div className="architecture-node node-observe">
+                  <button
+                    className={
+                      selectedArchitecture === "observe"
+                        ? "active"
+                        : ""
+                    }
+                    onClick={() =>
+                      setSelectedArchitecture("observe")
+                    }
+                  >
+                    <span>◉</span>
+                    <strong>Observability</strong>
+                    <small>Monitor</small>
+                  </button>
+                </div>
+              </div>
+
+              <div className="architecture-info">
+                <span className={`architecture-status ${currentArchitecture.color}`}>
+                  SYSTEM COMPONENT
+                </span>
+
+                <div className="architecture-info-icon">
+                  {currentArchitecture.icon}
+                </div>
+
+                <h3>{currentArchitecture.label}</h3>
+
+                <p>{currentArchitecture.text}</p>
+
+                <div className="architecture-flow">
+                  <span>INPUT</span>
+                  <i />
+                  <span>PROCESS</span>
+                  <i />
+                  <span>OUTPUT</span>
+                </div>
+
+                <div className="architecture-note">
+                  <span>01</span>
+                  <p>
+                    Click any architecture node to inspect its role
+                    in the delivery system.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ABOUT */}
+        <section id="about" className="section about-section">
+          <div className="container">
+            <div className="about-grid">
+              <div className="reveal">
+                <span className="section-kicker">05 / ABOUT</span>
+
+                <h2>
+                  Curious about
+                  <span> how systems work.</span>
+                </h2>
+              </div>
+
+              <div className="about-copy reveal reveal-delay">
+                <p className="large-copy">
+                  I'm building my career around the intersection of
+                  software delivery, cloud infrastructure and
+                  automation.
+                </p>
+
+                <p>
+                  My approach is practical: learn a technology, build
+                  something with it, break it, troubleshoot it and
+                  understand why it works. My projects reflect that
+                  process.
+                </p>
+
+                <div className="about-points">
+                  <div>
+                    <span>01</span>
+                    <strong>Automate</strong>
+                    <p>Reduce repetitive manual work.</p>
+                  </div>
+
+                  <div>
+                    <span>02</span>
+                    <strong>Containerize</strong>
+                    <p>Build portable application environments.</p>
+                  </div>
+
+                  <div>
+                    <span>03</span>
+                    <strong>Observe</strong>
+                    <p>Understand what systems are doing.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* CONTACT */}
         <section id="contact" className="section contact-section">
-          <div className="contact-main">
-            <div><span className="kicker">CONTACT / 04</span><h2>Build something<br/><span>reliable.</span></h2><p>I'm looking for opportunities where I can keep learning, automate repeatable work, and contribute to dependable infrastructure.</p></div>
-            <div className="contact-grid">
-              <a href="mailto:zahed.h.shaik@gmail.com"><span>EMAIL</span><b>zahed.h.shaik@gmail.com</b></a>
-              <a href="tel:+917000000001"><span>CONTACT</span><b>+91 7********1</b></a>
-              <a href="https://www.linkedin.com/in/zahed-h-shaik" target="_blank" rel="noreferrer"><span>LINKEDIN</span><b>zahed-h-shaik <ExternalLink size={14}/></b></a>
-              <a href="https://github.com/zahed-shaik-dev" target="_blank" rel="noreferrer"><span>GITHUB</span><b>zahed-shaik-dev <ExternalLink size={14}/></b></a>
+          <div className="container">
+            <div className="contact-card reveal">
+              <div className="contact-glow" />
+
+              <div className="contact-content">
+                <span className="section-kicker">
+                  06 / LET'S CONNECT
+                </span>
+
+                <h2>
+                  Let's build something
+                  <span> reliable.</span>
+                </h2>
+
+                <p>
+                  Looking for an entry-level DevOps or Cloud
+                  opportunity where I can learn, contribute and grow
+                  with an engineering team.
+                </p>
+
+                <div className="contact-actions">
+                  <button
+                    className="primary-button"
+                    onClick={copyEmail}
+                  >
+                    {copied ? "Email copied ✓" : "Copy my email"}
+                  </button>
+
+                  <a
+                    className="secondary-button"
+                    href="mailto:zahed.h.shaik@gmail.com"
+                  >
+                    Send an email ↗
+                  </a>
+                </div>
+              </div>
+
+              <div className="contact-links">
+                <a
+                  href="https://github.com/zahed-shaik-dev"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <span>GitHub</span>
+                  <b>↗</b>
+                </a>
+
+                <a
+                  href="https://linkedin.com/in/zahed-h-shaik"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <span>LinkedIn</span>
+                  <b>↗</b>
+                </a>
+
+                <a href="mailto:zahed.h.shaik@gmail.com">
+                  <span>Email</span>
+                  <b>↗</b>
+                </a>
+              </div>
             </div>
           </div>
-          <footer>
-            <span>© 2026 Zahed Hussain Shaik</span>
-            <span className="mono">status: <b>operational</b> · build: 1.0.0</span>
-          </footer>
         </section>
       </main>
+
+      <footer className="site-footer">
+        <div className="container footer-inner">
+          <div>
+            <strong>Z<span>.</span>DEVOPS</strong>
+            <small>ENGINEERING • AUTOMATION • CLOUD</small>
+          </div>
+
+          <p>Designed & built by Zahed Hussain Shaik</p>
+
+          <button onClick={() => scrollTo("home")}>
+            Back to top ↑
+          </button>
+        </div>
+      </footer>
+
+      {/* PROJECT MODAL */}
+      {selectedProject && (
+        <div
+          className="modal-backdrop"
+          onClick={() => setSelectedProject(null)}
+        >
+          <div
+            className="project-modal"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              className="modal-close"
+              onClick={() => setSelectedProject(null)}
+            >
+              ×
+            </button>
+
+            <div className={`modal-accent ${selectedProject.color}`} />
+
+            <span className="section-kicker">
+              PROJECT {selectedProject.number}
+            </span>
+
+            <span className="project-category">
+              {selectedProject.category}
+            </span>
+
+            <h2>{selectedProject.title}</h2>
+
+            <p className="modal-description">
+              {selectedProject.description}
+            </p>
+
+            <div className="modal-metrics">
+              {selectedProject.metrics.map(([label, value]) => (
+                <div key={label}>
+                  <span>{label}</span>
+                  <strong>{value}</strong>
+                </div>
+              ))}
+            </div>
+
+            <div className="modal-tech">
+              {selectedProject.technologies.map((technology) => (
+                <span key={technology}>{technology}</span>
+              ))}
+            </div>
+
+            <div className="modal-actions">
+              <a
+                href={selectedProject.repo}
+                target="_blank"
+                rel="noreferrer"
+                className="primary-button"
+              >
+                View repository ↗
+              </a>
+
+              <button
+                className="secondary-button"
+                onClick={() => setSelectedProject(null)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
-function MapPin() { return <Globe2 size={14}/>; }
 createRoot(document.getElementById("root")).render(<App />);
